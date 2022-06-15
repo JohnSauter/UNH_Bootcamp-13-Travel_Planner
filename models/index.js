@@ -1,24 +1,8 @@
 const Traveller = require('./Traveller');
 const Location = require('./Location');
-const Trip = require('./Trip');
+const Trips = require('./Trips');
 
-/* 
-Driver.hasOne(License, {
-  foreignKey: 'driver_id',
-  onDelete: 'CASCADE',
-});
+Traveller.belongsToMany(Location, { through: Trips });
+Location.belongsToMany(Traveller, { through: Trips });
 
-License.belongsTo(Driver, {
-  foreignKey: 'driver_id',
-});
-
-Driver.hasMany(Car, {
-  foreignKey: 'driver_id',
-  onDelete: 'CASCADE',
-});
-
-Car.belongsTo(Driver, {
-  foreignKey: 'driver_id',
-});
-*/
-module.exports = { Traveller, Location, Trip };
+module.exports = { Traveller, Location, Trips };
