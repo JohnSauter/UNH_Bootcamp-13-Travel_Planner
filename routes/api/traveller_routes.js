@@ -1,25 +1,12 @@
 const router = require('express').Router();
 const sequelize = require('../../config/connection');
-const { Driver, License, Car } = require('../../models');
+const { Location, Traveller, Trip } = require('../../models');
 
-// GET all drivers
+// GET all travellers
 router.get('/', async (req, res) => {
   try {
-    const driverData = await Driver.findAll({
-      include: [{ model: License }, { model: Car }],
-      attributes: {
-        include: [
-          [
-            // Use plain SQL to add up the total mileage
-            sequelize.literal(
-              '(SELECT SUM(mileage) FROM car WHERE car.driver_id = driver.id)'
-            ),
-            'totalMileage',
-          ],
-        ],
-      },
-    });
-    res.status(200).json(driverData);
+    const traveller_data = await Traveller.findAll();
+    res.status(200).json(traveller_data);
   } catch (err) {
     res.status(500).json(err);
   }
