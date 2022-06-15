@@ -24,6 +24,7 @@ Trips.init(
         key: 'id'
       },
       allowNull: false,
+      unique: false,
     },
     location_id: {
       type: DataTypes.INTEGER,
@@ -32,6 +33,7 @@ Trips.init(
         key: 'id'
       },
       allowNull: false,
+      unique: false
     },
   },
   {
