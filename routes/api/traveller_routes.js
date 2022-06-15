@@ -12,30 +12,30 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET a single driver
+/* Create a traveller */
+router.post('/', async (req, res) => {
+  try {
+    const {name, email } = req.body;
+    const new_traveller = await Traveller.create( {
+      name: name,
+      email: email
+    });
+    res.status(201).json(new_traveller);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+})
+// GET a single traveller
 router.get('/:id', async (req, res) => {
   try {
-    const driverData = await Driver.findByPk(req.params.id, {
-      include: [{ model: License }, { model: Car }],
-      attributes: {
-        include: [
-          [
-            // Use plain SQL to add up the total mileage
-            sequelize.literal(
-              '(SELECT SUM(mileage) FROM car WHERE car.driver_id = driver.id)'
-            ),
-            'totalMileage',
-          ],
-        ],
-      },
+    const traveller_data = await Traveller.findByPk(req.params.id, {
+      include: [{model: Location}]
     });
-
-    if (!driverData) {
-      res.status(404).json({ message: 'No driver found with that id!' });
+    if (!traveller_data) {
+      res.status(404).json({ message: 'No traveller found with that id!' });
       return;
     }
-
-    res.status(200).json(driverData);
+    res.status(200).json(traveller_data);
   } catch (err) {
     res.status(500).json(err);
   }
